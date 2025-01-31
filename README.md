@@ -4,6 +4,10 @@
 This is a **Dog Adoption Platform** where users can search for dogs, add them to favorites, and find their best match. The project is built using **React** and interacts with the provided API to fetch dog data and handle user interactions.
 
 ## 🚀 Getting Started
+
+### 🌍 Live Demo
+The application is live at: [Find My Match! Dog](https://find-my-favorite-dog-c9957c06b52b.herokuapp.com/)
+
 ### ⚡ Development Note
 This project uses Tailwind CSS CDN for styling to simplify setup and development.
 
