@@ -7,7 +7,7 @@ export default function Button({
   children,
 }) {
   return (
-    <button onClick={onClick} className={className} disabled={disabled}>
+    <button onClick={onClick} className={["cursor-pointer", className].filter(Boolean).join(" ")} disabled={disabled}>
       {children}
     </button>
   );

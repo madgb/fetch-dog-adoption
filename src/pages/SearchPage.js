@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+
 import DogTiles from "./subModules/searchPageModule/DogTiles";
 import Input from "../atoms/Input";
 import Button from "../atoms/Button";
@@ -12,7 +13,7 @@ const debounce = (func, delay = 300) => {
   };
 };
 
-const SearchPage = () => {
+const SearchPage = ({ toggleFavorite, favorites }) => {
   const [dogs, setDogs] = useState([]);
   const [breedFilter, setBreedFilter] = useState([]);
   const [zipCodes, setZipCodes] = useState([]);
@@ -27,7 +28,7 @@ const SearchPage = () => {
   useEffect(() => {
     fetchBreeds();
   }, []);
-
+  
   const fetchBreeds = async () => {
     try {
       const response = await fetch(
@@ -101,11 +102,22 @@ const SearchPage = () => {
     }
   }, [breedFilter, zipCodes, ageMin, ageMax, sortOrder, pageSize, from]);
 
-  const debouncedFetchDogs = useMemo(() => debounce(fetchDogs, 300), [fetchDogs]);
-
+  const debouncedFetchDogs = useCallback(debounce(fetchDogs, 700), [
+    breedFilter,
+    zipCodes,
+    ageMin,
+    ageMax,
+    sortOrder,
+    pageSize,
+    from,
+  ]);
 
   useEffect(() => {
-    debouncedFetchDogs();
+    const handler = setTimeout(() => {
+      debouncedFetchDogs();
+    }, 300);
+
+    return () => clearTimeout(handler);
   }, [debouncedFetchDogs]);
 
   const removeBreed = (breed) => {
@@ -220,8 +232,11 @@ const SearchPage = () => {
         className="mb-4 bg-green-500 text-white px-4 py-2 rounded"
         children="Next Page"
       />
-
-      <DogTiles dogs={dogs} />
+      <DogTiles
+        dogs={dogs}
+        toggleFavorite={toggleFavorite}
+        favorites={favorites}
+      />
     </div>
   );
 };
